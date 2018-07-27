@@ -4,7 +4,7 @@ import datetime
 from math import ceil, sqrt
 
 import numpy as np
-from scipy.misc import imsave
+from scipy.misc import imsave,imresize
 
 from six.moves import range
 from six import iteritems
@@ -29,6 +29,7 @@ config = {
     "OCTAVE_SCALE" : 1.4,
     "MAX_FEATUREMAP" : 1024,
     "FORCE_COMPUTE" : False,
+    "MAX_GRID_IMAGES_WIDTH" : 4096,
     "TV_DENOISE_WEIGHT" : 2.0,
     "NUM_LAPLACIAN_LEVEL" : 4,
     "REGULARIZATION_STRENGTH" : 1e-3
@@ -45,6 +46,7 @@ def reset_config():
         "OCTAVE_SCALE" : 1.4,
         "MAX_FEATUREMAP" : 1024,
         "FORCE_COMPUTE" : False,
+        "MAX_GRID_IMAGES_WIDTH" : 4096,
         "TV_DENOISE_WEIGHT" : 2.0,
         "NUM_LAPLACIAN_LEVEL" : 4,
         "REGULARIZATION_STRENGTH" : 1e-3
@@ -302,6 +304,14 @@ def convert_into_grid(Xs, ubound=255.0, padding=1):
     """
     (N, H, W, C) = Xs.shape
     grid_size = int(ceil(sqrt(N)))
+
+    max_grid_images_width =  config["MAX_GRID_IMAGES_WIDTH"]
+    scale = max_grid_images_width / (grid_size * W)
+    W = min(int(W * scale),W)
+    H = min(int(H * scale),H)
+
+
+
     grid_height = H * grid_size + padding * (grid_size - 1)
     grid_width = W * grid_size + padding * (grid_size - 1)
     grid = np.zeros((grid_height, grid_width, C))
@@ -311,7 +321,7 @@ def convert_into_grid(Xs, ubound=255.0, padding=1):
         x0, x1 = 0, W
         for x in range(grid_size):
             if next_idx < N:
-                grid[y0:y1, x0:x1] = Xs[next_idx]
+                grid[y0:y1, x0:x1] = imresize(Xs[next_idx],(H,W))
                 next_idx += 1
             x0 += W + padding
             x1 += W + padding
