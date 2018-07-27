@@ -23,7 +23,7 @@ image = mpimg.imread('data/1.jpg')
 image_np_expanded = np.expand_dims(image, axis=0)
 
 
-layers = ['SecondStageFeatureExtractor/resnet_v1_101/block4/unit_1/bottleneck_v1/shortcut/Conv2D',]
+layers = ['FirstStageFeatureExtractor/resnet_v1_101/resnet_v1_101/block1/unit_1/bottleneck_v1/conv1/Conv2D',]
 
 
 is_success = deconv_visualization(sess_graph_path='data/tf1.9.5819/model.ckpt.meta', value_feed_dict={image_tensor: image_np_expanded},
