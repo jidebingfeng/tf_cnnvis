@@ -344,7 +344,7 @@ def _images_to_grid(images):
 
         grid_size = int(ceil(sqrt(N)))
         max_grid_images_width = config["MAX_GRID_IMAGES_WIDTH"]
-        scale = max_grid_images_width / (grid_size * W)
+        scale = float(max_grid_images_width) / (grid_size * W)
         W = min(int(W * scale), W)
         H = min(int(H * scale), H)
 

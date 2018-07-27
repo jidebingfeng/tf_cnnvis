@@ -260,8 +260,6 @@ def _visualization_by_layer_name(graph, value_feed_dict, input_tensor, layer_nam
         True if successful. False otherwise.
     :rtype: boolean
     """
-    print("Start:",layer_name)
-
     start = -time.time()
     is_success = True
 
@@ -274,6 +272,7 @@ def _visualization_by_layer_name(graph, value_feed_dict, input_tensor, layer_nam
         return is_success
 
     op_tensor, x, X_in, feed_dict = parsed_tensors
+    print(op_tensor.name,op_tensor.shape)
 
     is_deep_dream = True
     #is_valid_sess = True
