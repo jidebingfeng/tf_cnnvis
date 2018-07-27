@@ -3,3 +3,13 @@ examples/Log
 examples/Output
 examples/MNIST_data
 examples/model
+.idea/
+tf_cnnvis.egg-info/
+model/
+data/
+tf_cnnvis/__pycache__/
+Log/
+build/lib/tf_cnnvis/__init__.py
+*.h5
+dist/
+build/

@@ -260,6 +260,8 @@ def _visualization_by_layer_name(graph, value_feed_dict, input_tensor, layer_nam
         True if successful. False otherwise.
     :rtype: boolean
     """
+    print("Start:",layer_name)
+
     start = -time.time()
     is_success = True
 
@@ -321,10 +323,18 @@ def _deconvolution(graph, sess, op_tensor, X, feed_dict):
         tensor_shape = op_tensor.get_shape().as_list()
 
         with sess.as_default() as sess:
+            # for op in sess.graph.get_operations():
+            #     print(op.name)
             # creating placeholders to pass featuremaps and
             # creating gradient ops
             featuremap = [tf.placeholder(tf.int32) for i in range(config["N"])]
-            reconstruct = [tf.gradients(tf.transpose(tf.transpose(op_tensor)[featuremap[i]]), X)[0] for i in range(config["N"])]
+            reconstruct = [ ]
+            for i in range(config["N"]):
+                tt = tf.transpose(op_tensor)[featuremap[i]]
+                tt1 = tf.transpose(tt)
+                grad_ys = tf.placeholder(np.float32, shape=(None, None, None))  # define the input tensor
+                tg = tf.gradients(tt1, X)[0]
+                reconstruct.append(tg)
 
             # Execute the gradient operations in batches of 'n'
             for i in range(0, tensor_shape[-1], config["N"]):

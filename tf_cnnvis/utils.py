@@ -28,7 +28,7 @@ config = {
     "NUM_ITERATION" : 50,
     "OCTAVE_SCALE" : 1.4,
     "MAX_FEATUREMAP" : 1024,
-    "FORCE_COMPUTE" : False,
+    "FORCE_COMPUTE" : True,
     "MAX_GRID_IMAGES_WIDTH" : 4096,
     "TV_DENOISE_WEIGHT" : 2.0,
     "NUM_LAPLACIAN_LEVEL" : 4,

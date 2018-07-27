@@ -7,7 +7,7 @@ import shutil
 import glob
 
 # required pkgs
-dependencies = ['numpy', 'scipy', 'h5py', 'wget', 'Pillow', 'six','scikit-image']
+dependencies = ['numpy', 'scipy', 'h5py', 'Pillow', 'six','scikit-image']
 
 try:
     from setuptools import setup
