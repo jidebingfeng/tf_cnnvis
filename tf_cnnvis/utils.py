@@ -117,13 +117,16 @@ def _write_activation(activations, layer, path_outdir, path_logdir):
     with tf.Graph().as_default() as g:
         image = tf.placeholder(tf.float32, shape = [None, None, None, None])
         image_summary_t = tf.summary.image(name = "All_At_Once_Activations", tensor = image, max_outputs = config["MAX_IMAGES"])
+        image_summary_t1 = tf.summary.image(name = "One_By_One_Activations", tensor = image, max_outputs = config["MAX_FEATUREMAP"])
 
         with tf.Session() as sess:
             summary = sess.run(image_summary_t, feed_dict = {image : np.concatenate(grid_activations, axis = 0)})
+            summary1 = sess.run(image_summary_t1, feed_dict = {image : np.concatenate(activations, axis = 0)})
 
         try:
             file_writer = tf.summary.FileWriter(path_log, g) # create file writer
             file_writer.add_summary(summary)
+            file_writer.add_summary(summary1)
         except:
             is_success = False
             print("Error occured int writting results into log file.")
